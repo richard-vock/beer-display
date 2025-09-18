@@ -7,6 +7,8 @@ const redis =  await createClient({ url: import.meta.env.REDIS_URL }).connect();
 
 const data = await redis.get("beers")
 const beers = JSON.parse(data);
+
+export const prerender = false;
 ---
 <Layout>
     <div class="bg-[#131e22] uppercase font-sans grid grid-cols-[1fr_1fr] items-center justify-items-center min-h-screen p-8 gap-8 ">
