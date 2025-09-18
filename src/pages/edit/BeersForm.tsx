@@ -58,6 +58,10 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
             fields: [...b.fields, { id: uid(), key: "", value: "" }],
         }));
 
+    const onAddBeer = () => {
+        setBeerData((prev) => [...prev, { name: "", fields: [] }]);
+    }
+
     const onRemoveBeer = (beerIndex: number) => {
         setBeerData((prev) => prev.filter((_, i) => i !== beerIndex));
     }
@@ -153,10 +157,16 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
                     </button>
                 </div>
             ))}
-            <button
-                className="bg-[#829797] text-[#ffffff] px-4 py-2"
-                onClick={onSave}
-            >Save Beers</button>
+            <div className="w-full flex items-center justify-between">
+                <button
+                    className="bg-[#829797] text-[#ffffff] px-4 py-2"
+                    onClick={onAddBeer}
+                >Add Beer</button>
+                <button
+                    className="bg-[#829797] text-[#ffffff] px-4 py-2"
+                    onClick={onSave}
+                >Save Beers</button>
+            </div>
         </div>
     );
 }
