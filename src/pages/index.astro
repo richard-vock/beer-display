@@ -3,7 +3,7 @@ import { createClient } from "redis"
 
 import Layout from '../layouts/Layout.astro';
 
-const redis =  await createClient({ url: "redis://default:QYflkF5eLfPGohXjjMUCNQoRUTAK9I72@redis-11123.c339.eu-west-3-1.ec2.redns.redis-cloud.com:11123" }).connect();
+const redis =  await createClient({ url: import.meta.env.REDIS_URL }).connect();
 
 const data = await redis.get("beers")
 const beers = JSON.parse(data);
