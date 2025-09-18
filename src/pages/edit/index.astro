@@ -1,0 +1,38 @@
+---
+import { createClient } from "redis"
+
+import Layout from '../../layouts/Layout.astro';
+import { BeersForm } from './BeersForm';
+
+const redis =  await createClient({ url: "redis://default:QYflkF5eLfPGohXjjMUCNQoRUTAK9I72@redis-11123.c339.eu-west-3-1.ec2.redns.redis-cloud.com:11123" }).connect();
+
+const data = await redis.get("beers")
+const beers = JSON.parse(data);
+---
+<Layout>
+    <div class="bg-[#131e22] font-sans flex flex-col items-center justify-center min-h-screen p-8 gap-8 ">
+        <div class="uppercase">
+            <h1 class="text-[#e66436] text-[36px]">Edit Beers</h1>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-16">
+            <BeersForm beers={beers} client:load />
+            { /* beers.map((beer, index) => (
+                <div key={index} class="flex flex-col w-full h-full items-start gap-3">
+                    <h2 class="text-[#efe7cf] text-[24px]">{ beer.style }</h2>
+                    <div class="flex flex-col w-full gap-5">
+                    { Object.keys(beer.data).map((key) => (
+                        <div key={key} class="grid grid-cols-[1fr_3fr] w-full bg-blue-500 min-h-24 gap-h-4 text-[18px] font-medium">
+                            <div class="bg-[#829797] text-[#efe7cf] flex items-center justify-center p-2">
+                                { key }
+                            </div>
+                            <div class="bg-[#ffffff] text-[#152128] flex items-center justify-center p-2">
+                                { beer.data[key] }
+                            </div>
+                        </div>
+                    )) }
+                    </div>
+                </div>
+            )) */ }
+        </div>
+    </div>
+</Layout>
