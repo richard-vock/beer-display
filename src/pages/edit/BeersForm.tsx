@@ -68,6 +68,28 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
         setBeerData((prev) => prev.filter((_, i) => i !== beerIndex));
     }
 
+    const onMoveBeerDown = (beerIndex: number) => {
+        if (beerIndex >= beerData.length - 1) return; // Can't move down the last item
+        setBeerData((prev) => {
+            const newBeers = [...prev];
+            const temp = newBeers[beerIndex];
+            newBeers[beerIndex] = newBeers[beerIndex + 1];
+            newBeers[beerIndex + 1] = temp;
+            return newBeers;
+        });
+    }
+
+    const onMoveBeerUp = (beerIndex: number) => {
+        if (beerIndex <= 0) return; // Can't move up the first item
+        setBeerData((prev) => {
+            const newBeers = [...prev];
+            const temp = newBeers[beerIndex];
+            newBeers[beerIndex] = newBeers[beerIndex - 1];
+            newBeers[beerIndex - 1] = temp;
+            return newBeers;
+        });
+    }
+
     const onSave = async () => {
         const payload = beerData.map((b) => ({
             name: b.name,
@@ -86,6 +108,7 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
         setModalText("Data saved!");
         setModalVisible(true);
     };
+
     return (
         <div className="flex flex-col items-end justify-center gap-16 w-full md:w-160">
             <div className={`fixed inset-0 backdrop-blur-xs bg-black/70 flex items-center justify-center ${modalVisible ? '' : 'hidden'}`}>
@@ -104,6 +127,20 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
             { beerData.map((beer, index) => (
                 <div key={index} className="bg-[#ffffff] text-[#152128] flex flex-col justify-start p-8 w-full items-end gap-8">
                     <div key={index} className="flex flex-col items-start justify-center gap-2 w-full">
+                        <div className="w-full flex items-center justify-end gap-2">
+                            <button
+                                className={`bg-[#829797] text-[#ffffff] flex items-center justify-center text-[30px] leading-none w-10 h-10 ${index === 0 ? 'hidden' : ''}`}
+                                onClick={() => onMoveBeerUp(index)}
+                            >
+                                ↑
+                            </button>
+                            <button
+                                className={`bg-[#829797] text-[#ffffff] flex items-center justify-center text-[30px] leading-none w-10 h-10 ${index === beerData.length - 1 ? 'hidden' : ''}`}
+                                onClick={() => onMoveBeerDown(index)}
+                            >
+                                ↓
+                            </button>
+                        </div>
                         <div>Name:</div>
                         <div>
                             <input
