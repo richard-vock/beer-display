@@ -14,8 +14,8 @@ export const prerender = false;
     <div class="bg-[#131e22] uppercase font-sans grid grid-cols-[1fr_1fr] items-center justify-items-center min-h-screen p-8 gap-8 ">
         { beers.map((beer, index) => (
             <div key={index} class="flex flex-col w-full h-full items-start gap-3">
-                <h1 class="text-[#e66436] text-[36px]">{ beer.name }</h1>
-                <h2 class="text-[#efe7cf] text-[24px]">{ beer.style }</h2>
+                <h1 class="text-[#e66436] text-[36px] leading-none">{ beer.name }</h1>
+                <h2 class="text-[#efe7cf] text-[24px] mb-[5px]">{ beer.style }</h2>
                 <div class="flex flex-col w-full gap-5">
                 { beer.fields.map((field) => (
                     <div key={field.key} class="grid grid-cols-[1fr_3fr] w-full min-h-24 gap-h-4 text-[18px] font-medium">

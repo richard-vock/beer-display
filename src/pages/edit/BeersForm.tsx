@@ -2,10 +2,10 @@ import React from 'react';
 
 type Field = { key: string; value: string };
 type UniqueField = { id: string; key: string; value: string };
-type Beer = { name: string; fields: UniqueField[] };
+type Beer = { name: string; style: string; fields: UniqueField[] };
 
 export interface Props {
-  beers?: Array<{ name?: string; fields?: Field[] }>;
+  beers?: Array<{ name?: string; style?: string; fields?: Field[] }>;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -14,6 +14,7 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
     const [beerData, setBeerData] = React.useState<Beer[]>(
         () => beers.map((b) => ({
             name: b.name ?? "",
+            style: b.style ?? "",
             fields: (b.fields ?? []).map((field) => ({
                 id: uid(),
                 ...field,
@@ -33,6 +34,7 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
         });
 
     const onNameChange = (index: number, value: string) => setBeer(index, (b) => ({ ...b, name: value }));
+    const onStyleChange = (index: number, value: string) => setBeer(index, (b) => ({ ...b, style: value }));
 
     const onFieldKeyChange = (beerIndex: number, fieldId: string, newKey: string) =>
         setBeer(beerIndex, (b) => ({
@@ -59,7 +61,7 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
         }));
 
     const onAddBeer = () => {
-        setBeerData((prev) => [...prev, { name: "", fields: [] }]);
+        setBeerData((prev) => [...prev, { name: "", style: "", fields: [] }]);
     }
 
     const onRemoveBeer = (beerIndex: number) => {
@@ -69,6 +71,7 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
     const onSave = async () => {
         const payload = beerData.map((b) => ({
             name: b.name,
+            style: b.style,
             fields: b.fields.map((f) => ({ key: f.key, value: f.value })),
         }));
 
@@ -106,9 +109,17 @@ export const BeersForm: React.FC<Props> = ({ beers }) => {
                             <input
                                 type="text"
                                 value={beer.name}
-                                onChange={(e) => {
-                                    onNameChange(index, e.target.value)
-                                }}
+                                onChange={(e) => onNameChange(index, e.target.value)}
+                                className="border border-gray-300 rounded-md p-2"
+                                required
+                            />
+                        </div>
+                        <div>Style:</div>
+                        <div>
+                            <input
+                                type="text"
+                                value={beer.style}
+                                onChange={(e) => onStyleChange(index, e.target.value) }
                                 className="border border-gray-300 rounded-md p-2"
                                 required
                             />
